@@ -3,7 +3,7 @@
     <fieldset>
         <legend></legend>
         Employee Name
-        <input name="text" dirname="EmployeeName" id="EmployeeName" class="form-control" />
+        <input type="text" name="EmployeeName" id="EmployeeName" class="form-control" />
         Employee Address
         <input type="text" name="EmployeeAddress" id="EmployeeAddress" class="form-control" />
         Employee Salary
@@ -13,18 +13,18 @@
     </fieldset>
 </form>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     function SaveEmployee()
     {
+        //debugger;
         var EmployeeDetails = $("#frmEmployee").serialize();
         $.post("/Employee/Create", EmployeeDetails, function (data) {
             if (data == 0) {
                 location = location.href;
-
             }
             else {
-
+                window.location.replace("/Employee/Index");
             }
-        })
+        }, 'json');
     }
-</script>
+</script>*@

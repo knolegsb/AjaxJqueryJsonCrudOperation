@@ -74,6 +74,28 @@
             $("#ModelTitle").html("Add New Employee Details");
             $("#myModalEmployee").modal();
         }
+
+        function SaveEmployee() {
+            //debugger;
+            var EmployeeDetails = $("#frmEmployee").serialize();
+            $.post("/Employee/Create", EmployeeDetails, function (data) {
+                if (data == 0) {
+                    location = location.href;
+                }
+                else {
+                    var table = $("#tableEmployee");
+                    var TableData = "<tr>" +
+                                "<td>" + data.EmployeeName + "</td>" +
+                                "<td>" + data.EmployeeAddress + "</td>" +
+                                "<td>" + data.EmployeeSalary + "</td>" +
+                                "<td>" + "" + "</td>" +
+                                + "</tr>";
+                    table.append(TableData);
+
+                    $("#myModalEmployee").modal('hide');
+                }
+            }, 'json');
+        }
     </script>
 </body>
 </html>
