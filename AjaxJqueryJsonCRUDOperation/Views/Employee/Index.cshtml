@@ -8,11 +8,13 @@
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
     <script src="~/Scripts/jquery-2.1.4.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </head>
 <body>
-    <!-- Modal -->
+
+    <!-- Form Modal Start -->
     <div id="myModalEmployee" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content -->
@@ -27,9 +29,32 @@
             </div>
         </div>
     </div>
-    <!-- Modal End -->
+    <!-- Form Modal End -->
+
+    <!-- Confirm Modal Start -->
+    <div id="myModalCofirm" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="modal-title" id="ModelTitle">Do you really want to delete?</div>
+                </div>
+                <div id="myModelContent" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Confirm Modal End -->
+
     <div style="margin-top: 100px; padding:40px;">
-        <button type="button" class="btn btn-info btn-lg" data-target="#myModalEmployee" onclick="CreateEmployee()">Add New Employee</button>
+        <button type="button" style="margin-bottom: 25px;" class="btn btn-info btn-lg" data-target="#myModalEmployee" onclick="CreateEmployee()">Add New Employee</button>
+        
         <div class="panel panel-primary">
             <div class="panel panel-heading">
                 Employee Details
@@ -54,14 +79,21 @@
         $("#loadstatus").html("Loading.....");
         $.get("/Employee/GetEmployeeDetails", null, BindDate);
         function BindDate(employees) {
-            
+
             var table = $("#tableEmployee");
             for (var i = 0; i < employees.length; i++) {
+                //console.log(employees[1].EmployeeID);
                 var TableData = "<tr>" +
                                 "<td>" + employees[i].EmployeeName + "</td>" +
                                 "<td>" + employees[i].EmployeeAddress + "</td>" +
                                 "<td>" + employees[i].EmployeeSalary + "</td>" +
-                                "<td>" + "" + "</td>" +
+                                "<td>" +
+                                       //+ "<a href='#' class='btn btn-danger' onclick='EditEmployee(" + employees[i].EmployeeID + ")'><span class='glyphicon glyphicon-eidt'>Edit</span></a>"
+                                       //+ "<a href='#' class='btn btn-danger' onclick='DeleteEmployee(" + employees[i].EmployeeID + ")'><span class='glyphicon glyphicon-eidt'>Delete</span></a>"
+                                       "<a href='#' class='btn btn-danger'onclick='EditEmployee(" + employees[i].EmployeeID + ")'><span class='glyphicon glyphicon-edit'> Edit</span></a>" +
+                                       "&nbsp;<a href='#' class='btn btn-danger' onclick='DeleteEmployee(" + employees[i].EmployeeID + ")'><span class='glyphicon glyphicon-trash'> Delete</span></a>"
+                                       +
+                                "</td>" +
                                 + "</tr>";
                 table.append(TableData);
             }
@@ -88,7 +120,10 @@
                                 "<td>" + data.EmployeeName + "</td>" +
                                 "<td>" + data.EmployeeAddress + "</td>" +
                                 "<td>" + data.EmployeeSalary + "</td>" +
-                                "<td>" + "" + "</td>" +
+                                "<td>" + 
+                                       "<a href='#' class='btn btn-danger'onclick='EditEmployee(" + data.EmployeeID + ")'><span class='glyphicon glyphicon-edit'> Edit</span></a>" +
+                                       "&nbsp;<a href='#' class='btn btn-danger' onclick='DeleteEmployee(" + data.EmployeeID + ")'><span class='glyphicon glyphicon-trash'> Delete</span></a>"
+                                       + "</td>" +
                                 + "</tr>";
                     table.append(TableData);
 
@@ -96,7 +131,45 @@
                 }
             }, 'json');
         }
+
+        function EditEmployee(ID) {
+            //console.log(ID);
+            var div = $("#myModelContent");
+            $("#ModelTitle").html("Update Employee Details");
+            div.load("/Employee/Edit/" + ID);
+            $("#myModalEmployee").modal();
+        }
+
+        function UpdateEmployee() {
+            var EmployeeDetails = $("#frmEmployee").serialize();
+            $.post("/Employee/Edit", EmployeeDetails, function (data) {
+                if (data == 0) {
+                    location = location.href;
+                }
+                else {
+                    $("#myModalEmployee").modal('hide');
+                    window.location.replace("/Employee/Index");
+                    window.location.reload(true);
+                }
+            });
+        }
+
+        function DeleteEmployee(ID) {
+            $("#myModalConfirm").modal('show');
+            $.get("/Employee/Delete/" + ID, null, function (data) {
+                if (data == 0) {
+                    $("#myModalConfirm").modal('show');
+                    location = location.href;
+                }
+                else {
+                    $("#myModalConfirm").modal('show');
+                    window.location.replace("/Employee/Index");
+                    window.location.reload(true);
+                }
+            });
+        }
     </script>
 </body>
+
 </html>
 

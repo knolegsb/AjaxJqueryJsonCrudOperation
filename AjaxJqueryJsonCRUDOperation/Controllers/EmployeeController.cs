@@ -39,5 +39,34 @@ namespace AjaxJqueryJsonCRUDOperation.Controllers
             db.SaveChanges();
             return Json(employee, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public PartialViewResult Edit(int? ID)
+        {
+            CrudOpDbContext db = new CrudOpDbContext();
+            Employee employee = new Employee();
+            employee = db.Employees.Find(ID);
+            return PartialView(employee);
+        }
+
+        [HttpPost]
+        public JsonResult Edit(Employee employee)
+        {
+            CrudOpDbContext db = new CrudOpDbContext();
+            db.Entry(employee).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return Json(employee, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult Delete(int ID)
+        {
+            CrudOpDbContext db = new CrudOpDbContext();
+            Employee employee = new Employee();
+            employee = db.Employees.Find(ID);
+            db.Entry(employee).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
+            return Json(employee, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -1,0 +1,16 @@
+﻿@model AjaxJqueryJsonCRUDOperation.Models.Employee
+
+<form id="frmEmployee">
+    <fieldset>
+        <legend></legend>
+        <input type="hidden" name="EmployeeID" id="EmployeeID" value="@Model.EmployeeID" />
+        Employee Name
+        <input type="text" name="EmployeeName" id="EmployeeName" class="form-control" value="@Model.EmployeeName" />
+        Employee Address
+        <input type="text" name="EmployeeAddress" id="EmployeeAddress" class="form-control" value="@Model.EmployeeAddress" />
+        Employee Salary
+        <input type="number" name="EmployeeSalary" id="EmployeeSalary" class="form-control" value="@Model.EmployeeSalary" />
+        <br />
+        <input type="button" name="btnSubmit" class="btn btn-primary" value="Update" onclick="UpdateEmployee()" />
+    </fieldset>
+</form>
