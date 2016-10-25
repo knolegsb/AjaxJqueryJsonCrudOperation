@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <!-- Modal -->
+    <div id="myModalEmployee" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="modal-title" id="ModelTitle"></div>
+                </div>
+                <div id="myModelContent" class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
+    <div style="margin-top: 100px; padding:40px;">
+        <button type="button" class="btn btn-info btn-lg" data-target="#myModalEmployee" onclick="CreateEmployee()">Add New Employee</button>
+        <div class="panel panel-primary">
+            <div class="panel panel-heading">
+                Employee Details
+            </div>
+            <div class="panel panel-body">
+                <div id="loadstatus"></div>
+                <table id="tableEmployee" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Employee Address</th>
+                            <th>Employee Salary</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#loadstatus").html("Loading.....");
+        $.get("/Employee/GetEmployeeDetails", null, BindDate);
+        function BindDate(employees) {
+            
+            var table = $("#tableEmployee");
+            for (var i = 0; i < employees.length; i++) {
+                var TableData = "<tr>" +
+                                "<td>" + employees[i].EmployeeName + "</td>" +
+                                "<td>" + employees[i].EmployeeAddress + "</td>" +
+                                "<td>" + employees[i].EmployeeSalary + "</td>" +
+                                "<td>" + "" + "</td>" +
+                                + "</tr>";
+                table.append(TableData);
+            }
+            $("#loadstatus").html("");
+        }
+
+        function CreateEmployee() {
+            var div = $("#myModelContent");
+            div.load("/Employee/Create");
+            $("#ModelTitle").html("Add New Employee Details");
+            $("#myModalEmployee").modal();
+        }
+    </script>
+</body>
+</html>
+

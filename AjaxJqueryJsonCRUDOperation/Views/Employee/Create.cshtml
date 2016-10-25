@@ -1,0 +1,30 @@
+﻿
+<form id="frmEmployee">
+    <fieldset>
+        <legend></legend>
+        Employee Name
+        <input name="text" dirname="EmployeeName" id="EmployeeName" class="form-control" />
+        Employee Address
+        <input type="text" name="EmployeeAddress" id="EmployeeAddress" class="form-control" />
+        Employee Salary
+        <input type="number" name="EmployeeSalary" id="EmployeeSalary" class="form-control" />
+        <br />
+        <input type="button" name="btnSubmit" class="btn btn-primary" value="Save" onclick="SaveEmployee()" />
+    </fieldset>
+</form>
+
+<script type="text/javascript">
+    function SaveEmployee()
+    {
+        var EmployeeDetails = $("#frmEmployee").serialize();
+        $.post("/Employee/Create", EmployeeDetails, function (data) {
+            if (data == 0) {
+                location = location.href;
+
+            }
+            else {
+
+            }
+        })
+    }
+</script>
