@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/js/myApp.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="employeeCtrl">
+        <div>
+            Employee Name: <input type="text" name="employee.employeename" ng-model="employee.employeename" /><br />
+            Employee Address: <input type="text" name="employee.employeeaddress" ng-model="employee.employeeaddress" /><br />
+            Employee Salary: <input type="text" name="employee.employeesalary" ng-model="employee.employeesalary" /><br />
+            <input type="button" value="Save" name="btnSave" ng-click="savedata(employee)" />
+        </div>
+        <table style="border:1px solid gray;">
+            <tr>
+                <th>Employee Name</th>
+                <th>Employee Address</th>
+                <th>Employee Salary</th>
+                <th>Operations</th>
+            </tr>
+            <tr ng-repeat="emp in employees">
+                <td>{{emp.EmployeeName}}</td>
+                <td>{{emp.EmployeeAddress}}</td>
+                <td>{{emp.EmployeeSalary}}</td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+</html>
+
